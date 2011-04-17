@@ -1,0 +1,54 @@
+<?php
+class Teasers extends DataObjectDecorator {
+	function extraStatics() {
+		return array(
+			'many_many' => array(
+				'Teasers' => 'Teaser'
+			),
+			'db' => array(
+				'InheritParentTeasers' => 'Boolean'
+			)
+		);
+	}
+	function updateCMSFields(&$fields) {
+		/*
+		 * show inherit parent teasers option if this page has a parent with teasers 
+		 */
+		if($this->owner->Parent()->Exists() && $this->owner->Parent()->hasExtension('Teasers')) {
+			//set inherit parent teaser option as default for new pages
+			if($this->owner->Version == 1) $this->owner->InheritParentTeasers = 1;
+			$fields->addFieldToTab(
+				'Root.Content.Teasers', new CheckboxField(
+					$name = 'InheritParentTeasers',
+					$title = _t('Teasers.INHERIT_PARENT_TEASERS','Show the teasers of the parent page (teasers below will not be shown)'),
+					$value = 1
+				)
+			);
+		}
+		$manager = new ManyManyDataObjectManager (
+			$this->owner,
+			'Teasers',
+			'Teaser',
+			array(
+				'Title' => _t('Teasers.TEASER_TITLE','Title'),
+				'Content' => _t('Teasers.TEASER_CONTENT','Content'),
+				'ThumbnailOfTeaserImage' => _t('Teasers.THUMBNAIL','Image')
+			),
+			'getCMSFields_forPopup'
+		);
+		$manager->setMarkingPermission("CMS_ACCESS_CMSMain");
+		$fields->addFieldToTab('Root.Content.Teasers', $manager);
+		
+		return $fields;
+	}
+	/*
+	 * inherit paret teasers if inherit option is selected. Otherwise show the page's own teasers.
+	 */
+	function ManagedTeasers(){
+		if ($this->owner->InheritParentTeasers && $this->owner->Parent()->Exists() && $this->owner->Parent()->hasExtension('Teasers'))
+			return $this->owner->Parent()->Teasers();
+		else
+			return $this->owner->Teasers();
+	}
+}
+?>
