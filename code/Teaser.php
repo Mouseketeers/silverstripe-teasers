@@ -23,7 +23,7 @@ class Teaser extends DataObject {
 		$PageDropDown->setEmptyString('-- None --');
 		$fields->push($PageDropDown);
 		$fields->push(new TextField('LinkTitle', 'Link label'));
-		$fields->push(new ImageField('Image', 'Image'));
+		$fields->push(new FileUploadField('Image', 'Image'));
 		return $fields;
 	}
 }
