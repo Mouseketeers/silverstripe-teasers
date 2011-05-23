@@ -15,8 +15,6 @@ class Teasers extends DataObjectDecorator {
 		 * show inherit parent teasers option if this page has a parent with teasers 
 		 */
 		if($this->owner->Parent()->Exists() && $this->owner->Parent()->hasExtension('Teasers')) {
-			//set inherit parent teaser option as default for new pages
-			if($this->owner->Version == 1) $this->owner->InheritParentTeasers = 1;
 			$fields->addFieldToTab(
 				'Root.Content.Teasers', new CheckboxField(
 					$name = 'InheritParentTeasers',
@@ -51,4 +49,3 @@ class Teasers extends DataObjectDecorator {
 			return $this->owner->Teasers();
 	}
 }
-?>
