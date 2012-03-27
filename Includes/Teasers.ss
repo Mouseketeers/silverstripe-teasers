@@ -2,7 +2,6 @@
 <div id="Teasers">
 	<% control Teasers %>
 	<div class="teaser">
-	<% end_if %>
 		<% if Title || Content %>
 		<div class="teaserBody">
 			<% if Title %><h2>$Title</h2><% end_if %>
