@@ -29,7 +29,7 @@ class Teasers extends DataObjectDecorator {
 			'Teaser',
 			array(
 				'Title' => _t('Teasers.TEASER_TITLE','Title'),
-				'Content' => _t('Teasers.TEASER_CONTENT','Content'),
+				'ContentSummary' => _t('Teasers.TEASER_CONTENT','Content'),
 				'ThumbnailOfTeaserImage' => _t('Teasers.THUMBNAIL','Image')
 			),
 			'getCMSFields_forPopup'

@@ -13,7 +13,10 @@ class Teaser extends DataObject {
 		'Pages' => 'Page'
 	);
 	function getThumbnailOfTeaserImage() {
-		return $this->owner->Image()->CMSThumbnail();
+		return $this->owner->Image()->StripThumbnail();
+	}
+	function getContentSummary() {
+		return $this->dbObject('Content')->LimitCharacters(80);
 	}
 	function getCMSFields_forPopup() {
 		$fields = new FieldSet();
