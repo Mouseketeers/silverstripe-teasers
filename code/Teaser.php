@@ -13,7 +13,7 @@ class Teaser extends DataObject {
 		'Pages' => 'Page'
 	);
 	function getThumbnailOfTeaserImage() {
-		return $this->owner->Image()->StripThumbnail();
+		return $this->Image()->StripThumbnail();
 	}
 	function getContentSummary() {
 		return $this->dbObject('Content')->LimitCharacters(80);
