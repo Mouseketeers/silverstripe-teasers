@@ -4,7 +4,7 @@
 	<div class="teaser">
 		<% if Title || Content %>
 		<div class="teaserBody">
-			<% if Title %><h2>$Title</h2><% end_if %>
+			<% if Title %><h4>$Title</h4><% end_if %>
 			<% if Content %>$Content<% end_if %>
 			<% if Link && LinkTitle %><p><a href="$Link.URLSegment" class="readMore">$LinkTitle</a></p><% end_if %>
 		</div>
