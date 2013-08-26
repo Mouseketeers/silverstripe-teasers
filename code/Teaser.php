@@ -20,8 +20,8 @@ class Teaser extends DataObject {
 	}
 	function getCMSFields_forPopup() {
 		$fields = new FieldSet();
-		$fields->push(new FileUploadField('Image', 'Image'));
 		$fields->push(new TextField('Title', 'Title'));
+		$fields->push(new FileUploadField('Image', 'Image'));
 		$fields->push(new SimpleTinyMCEField('Content','Content'));
 		$PageDropDown = new SimpleTreeDropdownField('LinkID', 'Link to page');
 		$PageDropDown->setEmptyString('-- None --');
