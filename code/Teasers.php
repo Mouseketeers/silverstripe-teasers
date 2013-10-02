@@ -12,6 +12,10 @@ class Teasers extends DataObjectDecorator {
 	}
 	function updateCMSFields(&$fields) {
 		/*
+		* don't want teasers on a redirector page
+		*/
+		if($this->owner->ClassName == 'RedirectorPage') return $fields;
+		/*
 		 * show inherit parent teasers option if this page has a parent with teasers 
 		 */
 		if($this->owner->Parent()->Exists() && $this->owner->Parent()->hasExtension('Teasers')) {
