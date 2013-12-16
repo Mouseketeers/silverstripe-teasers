@@ -27,6 +27,7 @@ class Teaser extends DataObject {
 		$PageDropDown->setEmptyString('-- None --');
 		$fields->push($PageDropDown);
 		$fields->push(new TextField('LinkTitle', 'Link label'));
+		$fields->push( new LiteralField('DOM-fix','<div style="height:35px">&nbsp;</div>'));
 		return $fields;
 	}
 }
