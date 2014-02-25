@@ -2,7 +2,7 @@
 	<% control Teasers %>
 	<li class="teaser">
 			<% if Image %>$Image<% end_if %>
-			<h2>$Title</h2>
+			<h3>$Title</h3>
 			$Content
 		<% if LinkTitle %><a href="$Link.URLSegment" class="button radius">$LinkTitle</a><% end_if %>
 	</li>
