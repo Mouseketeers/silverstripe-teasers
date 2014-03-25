@@ -3,7 +3,8 @@ class Teaser extends DataObject {
 	static $db = array(
 		'Title' => 'Varchar(255)',
 		'Content' => 'HTMLText',
-		'LinkTitle' => 'Varchar(255)'
+		'LinkTitle' => 'Varchar(255)',
+		'Global' => 'Boolean'
 	);
 	static $has_one = array (
 		'Image' => 'Image',
@@ -18,6 +19,9 @@ class Teaser extends DataObject {
 	function getContentSummary() {
 		return $this->dbObject('Content')->LimitCharacters(80);
 	}
+	function getGlobalSummary() {
+		return $this->Global ? 'Shown on all pages' : '';
+	}
 	function getCMSFields_forPopup() {
 		$fields = new FieldSet();
 		$fields->push(new TextField('Title', 'Title'));
@@ -27,6 +31,7 @@ class Teaser extends DataObject {
 		$PageDropDown->setEmptyString('-- None --');
 		$fields->push($PageDropDown);
 		$fields->push(new TextField('LinkTitle', 'Link label'));
+		$fields->push(new CheckboxField('Global', 'Show this teaser on all pages'));	
 		$fields->push( new LiteralField('DOM-fix','<div style="height:35px">&nbsp;</div>'));
 		return $fields;
 	}
