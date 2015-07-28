@@ -3,9 +3,13 @@ class Teasers extends DataObjectDecorator {
 	
 	public static $enable_parent_inheritance = false;
 	public static $enable_global_teasers = false;
+	public static $enable_num_columns = false;
 	public static $enable_column_width = false;
 	public static $column_widths = array('1' => 1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 ,10 ,11 ,12);
 	public static $default_column_width;
+
+	public static $default_num_columns;
+	public static $num_columns_options = array(1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 ,10 ,11 ,12);
 
 	function extraStatics() {
 		return array(
@@ -13,6 +17,7 @@ class Teasers extends DataObjectDecorator {
 				'Teasers' => 'Teaser'
 			),
 			'db' => array(
+				'NumTeaserColumns' => 'Varchar',
 				'InheritParentTeasers' => 'Boolean'
 			)
 		);
@@ -24,6 +29,18 @@ class Teasers extends DataObjectDecorator {
 					$name = 'InheritParentTeasers',
 					$title = _t('Teasers.INHERIT_PARENT_TEASERS','Show the teasers of the parent page (teasers selected below will not be shown)'),
 					$value = 1
+				)
+			);
+		};
+		if(self::$enable_num_columns) {
+			$fields->addFieldToTab(
+				'Root.Content.Teasers', new DropdownField(
+					$name = 'NumTeaserColumns',
+					$title = _t('Teaser.NUMCOLUMNS','Number of teasers per row'),
+					$options = self::$num_columns_options,
+					$value = null,
+					$form = null,
+					$emptyString = 'Default'
 				)
 			);
 		}
@@ -70,4 +87,20 @@ class Teasers extends DataObjectDecorator {
 	function GlobalTeasers() {
 		return DataObject::get('Teaser', 'Global = 1');
 	}
+	function getNumColumns() {
+		$num_columns = $this->owner->NumTeaserColumns;
+		if(!$num_columns) {
+			$num_columns = $this->getDefaultNumColumns();
+		}
+		return $num_columns;
+	}
+	private function getDefaultNumColumns() {
+		$default_num_columns = self::$default_num_columns;
+		// default to first item in array if no default column width is specified
+		if(!$default_num_columns) {
+			reset(self::$num_columns_options);
+			$default_num_columns = key(self::$num_columns_options);
+		}
+		return $default_num_columns;
+	} 
 }
