@@ -12,10 +12,8 @@ class Teaser extends DataObject {
 	);
 	static $has_one = array (
 		'Image' => 'Image',
-		'Link' => 'SiteTree'
-	);
-	static $belongs_many_many = array(
-		'Pages' => 'Page'
+		'Link' => 'SiteTree',
+		'Page' => 'Page'
 	);
 	static $default_sort = "SortOrder";
 	static $field_labels = array(
@@ -33,38 +31,6 @@ class Teaser extends DataObject {
 	public function populateDefaults() {
 		$this->ColumnWidth = $this->getDefaultColumnWidth();
 		parent::populateDefaults();
-	}
-	function getThumbnail() {
-		if (((int) $this->ImageID > 0) && (is_a($this->Image(),'Image')))  {
-			return $this->Image()->SetWidth(50);
-		} else {
-			return 'No image';
-		}
-	}
-	function getContentSummary() {
-		return $this->dbObject('Content')->LimitCharacters(80);
-	}
-	function getGlobalSummary() {
-		return $this->Global ? 'Shown on all pages' : '';
-	}
-	function ColumnWidth() {
-		return $this->getDefaultColumnWidth();
-		$column_width = $this->dbObject('ColumnWidth')->value;
-		if(!$column_width) {
-			$column_width = $this->getDefaultColumnWidth();
-		}
-		return $column_width;
-	}
-	private function getDefaultColumnWidth() {
-		$default_column_width = Teasers::$default_column_width;
-		// default to first item in array if no default column width is specified
-		if(!$default_column_width) {
-			// debug::dump(end(Teasers::$column_widths));
-			$default_column_width = end(Teasers::$column_widths);
-			// reset(Teasers::$column_widths);
-			// $default_column_width = key(Teasers::$column_widths);
-		}
-		return $default_column_width;
 	}
 	public function getCMSFields(){
 		$fields = new FieldList();
@@ -91,6 +57,42 @@ class Teaser extends DataObject {
 			$fields->push(new CheckboxField('Global', 'Show this teaser on all pages'));
 		}
 		return $fields;
+	}
+	function getThumbnail() {
+		if (((int) $this->ImageID > 0) && (is_a($this->Image(),'Image')))  {
+			return $this->Image()->SetWidth(50);
+		} else {
+			return 'No image';
+		}
+	}
+	public function HasLink() {
+		$has_link = ($this->LinkID || $this->ExternalLink != '');
+		return $has_link;
+	}
+	function getContentSummary() {
+		return $this->dbObject('Content')->LimitCharacters(80);
+	}
+	function getGlobalSummary() {
+		return $this->Global ? 'Shown on all pages' : '';
+	}
+	function ColumnWidth() {
+		return $this->getDefaultColumnWidth();
+		$column_width = $this->dbObject('ColumnWidth')->value;
+		if(!$column_width) {
+			$column_width = $this->getDefaultColumnWidth();
+		}
+		return $column_width;
+	}
+	private function getDefaultColumnWidth() {
+		$default_column_width = Teasers::$default_column_width;
+		// default to first item in array if no default column width is specified
+		if(!$default_column_width) {
+			// debug::dump(end(Teasers::$column_widths));
+			$default_column_width = end(Teasers::$column_widths);
+			// reset(Teasers::$column_widths);
+			// $default_column_width = key(Teasers::$column_widths);
+		}
+		return $default_column_width;
 	}
 }
 ?>
