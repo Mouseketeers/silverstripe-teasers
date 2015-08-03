@@ -1,19 +1,21 @@
-
 <% if ManagedTeasers %>
-<div class="teasers">
-	<% control ManagedTeasers %>
-	<div class="teaser large-$ColumnWidth columns <% if Last %> end<% end_if %>">
-			<% if Title %><h3>$Title</h3><% end_if %>
-			<% if Image %>$Image.SetWidth(300)<% end_if %>
-			$Content
-			<p>
-			<% if Link || ExternalLink %>
-				<a href="<% if Link %>$Link.URLSegment<% else_if ExternalLink %>$ExternalLink<% end_if %>">
-					<% if LinkTitle %>$LinkTitle<% else %>Read more<% end_if %>
-				</a>
-			<% end_if %>
-			</p>
-	</div>
-	<% end_control %>
-</div>
+<ul class="teasers medium-block-grid-{$NumColumns}">
+	<% loop ManagedTeasers %>
+	<li class="teaser">
+		<% if Title %><h3>$Title</h3><% end_if %>
+		<% if Image %>$Image.SetWidth(300)<% end_if %>
+		$Content
+		<p>
+		<% if Link || ExternalLink %>
+			<a href="<% if Link %>$Link.URLSegment<% else_if ExternalLink %>$ExternalLink<% end_if %>">
+				<% if LinkTitle %>$LinkTitle<% else %>Read more<% end_if %>
+			</a>
+		<% end_if %>
+		</p>
+	</li>
+	<% end_loop %>
+</ul>
 <% end_if %>
+
+
+	
